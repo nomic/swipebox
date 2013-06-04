@@ -257,16 +257,16 @@
 					}
 				});
 
-				$('#swipebox-action').hover(function() {
-				  		$this.showBars();
+				$('#swipebox-action').on('mouseenter', function() {
+				    $this.showBars();
 						b.addClass('force-visible-bars');
 						$this.clearTimeout();
-					
-					},function() { 
+				});
+				$('#swipebox-action').on('mouseleave', function() {
 						b.removeClass('force-visible-bars');
 						$this.setTimeout();
-
 				});
+
 			},
 
 			keyboard : function(){
@@ -328,7 +328,7 @@
 				this.setTitle(index);
 
 				if( isFirst ){
-					slider.fadeIn();
+					if (slider.fadeIn) { slider.fadeIn(); } else { slider.show(); }
 				}
 
 				$('#swipebox-prev, #swipebox-next').removeClass('disabled');
@@ -431,7 +431,7 @@
 				$('body').unbind('touchend');
 				$('#swipebox-slider').unbind();
 				$('#swipebox-overlay').remove();
-				$elem.removeData('_swipebox');
+				$elem.removeAttr('data-_swipebox');
 				$this.target.trigger('swipebox-destroy');
  			}
 
@@ -442,10 +442,10 @@
 	}
 
 	$.fn.swipebox = function(options){
-		if (!$.data(this, "_swipebox")) {
+		if (!$(this).data("_swipebox")) {
 			var swipebox = new $.swipebox(this, options);
-			this.data('_swipebox', swipebox);
+			$(this).data('_swipebox', swipebox);
 		}
 	}
 
-}(window, document, jQuery));
+}(window, document, jQuery || Zepto));
